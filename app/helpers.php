@@ -2,7 +2,7 @@
 // 根据环境不同配置数据库
 function get_db_config()
 {
-    var_dump(getenv('IS_IN_HEROKU'));
+    // var_dump(getenv('IS_IN_HEROKU'));
     if (getenv('IS_IN_HEROKU')) {
         $url = parse_url(getenv("DATABASE_URL"));
 

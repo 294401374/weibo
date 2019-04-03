@@ -20,3 +20,10 @@ Route::get('/about', 'StaticPagesController@about')->name('about');
 
 Route::get('signup', 'UsersController@create')->name('signup');
 Route::resource('users', 'UsersController');
+
+// 展示登陆页面
+Route::get('login', 'SessionsController@create')->name('login');
+// 登陆操作
+Route::post('login', 'SessionsController@store')->name('login');
+// 退出操作
+Route::delete('logout', 'SessionsController@destroy')->name('logout');

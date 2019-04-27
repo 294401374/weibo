@@ -69,13 +69,15 @@ class UsersController extends Controller
         // 验证参数
         $this->validate($request, [
             'name'      => 'required|max:50',
-            'password'  => 'required|confirmed|min:6',
+            'password'  => 'nullable|confirmed|min:6',
         ]);
-        $user->update([
-            'name'      => $request->name,
-            'passsword' => bcrypt($request->password),
-        ]);
-
-        return redirect()->route('users.show', $user->id);
+        $data = [];
+        $data['name'] = $request->name;
+        if ($request->password) {
+            $data['password'] = bcrypt($request->password);
+        }
+        $user->update($data);
+        session()->flash('success', '个人资料更新成功！');
+        return redirect()->route('users.show', $user);
     }
 }

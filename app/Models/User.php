@@ -46,15 +46,22 @@ class User extends Authenticatable
         });
     }
 
+    // 关联微博状态
     public function statuses()
     {
         return $this->hasMany(Status::class);
     }
 
+    // 获取微博状体
     public function feed()
     {
-        return $this->statuses()
-                    ->orderBy('created_at', 'desc');
+        $user_ids = $this->followings->pluck('id')->toArray();
+        array_push($user_ids, $this->id);
+        $feed = Status::whereIn('user_id', $user_ids)
+                                        ->with('user')
+                                        ->orderBy('created_at', 'desc');
+                                        // dd($feed);
+        return $feed;
     }
 
     /**
